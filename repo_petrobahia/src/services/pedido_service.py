@@ -1,4 +1,4 @@
-from services.preco_calculadora import calcular_preco
+from services.preco_service import calcular_preco
 
 def processar_pedido(p):
     prod = p.get("produto")

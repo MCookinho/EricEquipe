@@ -1,3 +1,4 @@
+import ast
 from services.pedido_service import processar_pedido
 from services.clientes import cadastrar_cliente
 
@@ -8,10 +9,11 @@ pedidos = [
     {"cliente": "PetroPark", "produto": "lubrificante", "qtd": 12, "cupom": "LUB2"},
 ]
 
-clientes = [
-    {"nome": "Ana Paula", "email": "ana@@petrobahia", "cnpj": "123"},
-    {"nome": "Carlos", "email": "carlos@petrobahia.com", "cnpj": "456"},
-]
+clientes = []
+with open("../data/clientes.txt", "r", encoding="utf-8") as f:
+    for linha in f:
+        if linha.strip():
+            clientes.append(ast.literal_eval(linha.strip()))
 
 print("==== Início processamento PetroBahia ====")
 

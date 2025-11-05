@@ -28,4 +28,36 @@ src/
 ---
 
 ## DECISÕES DE DESIGN
-Descreva aqui as mudanças feitas e os motivos.
+Etapas ideais de refatoração
+1️⃣ Organizar a estrutura do projeto
+
+Primeiro, cria uma estrutura limpa e sem ambiguidade de import:
+
+seu-repositorio/
+│
+├── data/
+│   └── clientes.txt             # arquivos de dados ficam fora do código
+│
+├── src/
+│   ├── main.py
+│   ├── __init__.py
+│   ├── services/                # novo nome para “legacy”
+│   │   ├── __init__.py
+│   │   ├── clientes_service.py
+│   │   ├── pedido_service.py
+│   │   └── preco_service.py
+│   └── utils/
+│       └── file_utils.py        # funções genéricas de leitura/escrita
+│
+└── tests/
+    └── test_pedido_service.py   # depois faremos testes automatizados
+
+
+🔄 Por quê:
+
+“legacy” sugere código velho, e queremos evoluir.
+
+“services” representa bem as regras de negócio.
+
+“data/” guarda os dados, deixando src/ limpo.
+

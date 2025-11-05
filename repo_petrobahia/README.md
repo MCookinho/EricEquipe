@@ -32,7 +32,7 @@ Etapas ideais de refatoração
 1️⃣ Organizar a estrutura do projeto
 
 Primeiro, cria uma estrutura limpa e sem ambiguidade de import:
-
+```
 seu-repositorio/
 │
 ├── data/
@@ -51,7 +51,7 @@ seu-repositorio/
 │
 └── tests/
     └── test_pedido_service.py   # depois faremos testes automatizados
-
+```
 
 🔄 Por quê:
 

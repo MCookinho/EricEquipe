@@ -1,6 +1,6 @@
 import ast
 from services.pedido_service import processar_pedido
-from services.clientes import cadastrar_cliente
+from services.clientes_service import cadastrar_cliente
 
 pedidos = [
     {"cliente": "TransLog", "produto": "diesel", "qtd": 1200, "cupom": "MEGA10"},

@@ -1,34 +1,42 @@
-import ast
-from services.pedido_service import processar_pedido
-from services.clientes_service import cadastrar_cliente
+from services.clientes_service import ClienteService
+from services.pedido_service import PedidoService
+from utils.log_config import setup_logger
 
-pedidos = [
-    {"cliente": "TransLog", "produto": "diesel", "qtd": 1200, "cupom": "MEGA10"},
-    {"cliente": "MoveMais", "produto": "gasolina", "qtd": 300, "cupom": None},
-    {"cliente": "EcoFrota", "produto": "etanol", "qtd": 50, "cupom": "NOVO5"},
-    {"cliente": "PetroPark", "produto": "lubrificante", "qtd": 12, "cupom": "LUB2"},
-]
 
-clientes = []
-with open("../data/clientes.txt", "r", encoding="utf-8") as f:
-    for linha in f:
-        if linha.strip():
-            clientes.append(ast.literal_eval(linha.strip()))
+def main():
+    logger = setup_logger("main")
 
-print("==== Início processamento PetroBahia ====")
+    logger.info("=== Iniciando sistema PetroBahia ===")
 
-for c in clientes:
-    ok = cadastrar_cliente(c)
-    if ok:
-        print("cliente ok:", c["nome"])
-    else:
-        print("cliente com problema:", c)
+    cliente_service = ClienteService()
+    pedido_service = PedidoService()
 
-valores = []
-for p in pedidos:
-    v = processar_pedido(p)
-    valores.append(v)
-    print("pedido:", p, "-- valor final:", v)
+    # Exemplo de clientes
+    clientes = [
+        {"nome": "João Silva", "email": "joao.silva@petrobahia.com"},
+        {"nome": "Maria Souza", "email": "maria.souza@@petrobahia.com"},  # inválido
+    ]
 
-print("TOTAL =", sum(valores))
-print("==== Fim processamento PetroBahia ====")
+    # Cadastra clientes
+    for c in clientes:
+        cliente_service.cadastrar(c)
+
+    # Exemplo de pedidos
+    pedidos = [
+        {"cliente": "João Silva", "produto": "diesel", "qtd": 800, "cupom": "MEGA10"},
+        {"cliente": "Maria Souza", "produto": "gasolina", "qtd": 150, "cupom": "NOVO5"},
+        {"cliente": "João Silva", "produto": "lubrificante", "qtd": 3, "cupom": "LUB2"},
+    ]
+
+    for p in pedidos:
+        try:
+            preco = pedido_service.processar(p)
+            logger.info(f"Pedido concluído: {p['cliente']} => R$ {preco:.2f}")
+        except Exception as e:
+            logger.exception(f"Erro ao processar pedido {p}: {e}")
+
+    logger.info("=== Encerrando sistema PetroBahia ===")
+
+
+if __name__ == "__main__":
+    main()

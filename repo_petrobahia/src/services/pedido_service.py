@@ -1,37 +1,46 @@
-from services.preco_service import calcular_preco
+from src.preco_service import PrecoService
+from src.log_config import setup_logger
 
-def processar_pedido(p):
-    prod = p.get("produto")
-    qtd = p.get("qtd")
-    cupom = p.get("cupom")
 
-    if qtd == 0:
-        print("qtd zero, retornando 0")
-        return 0
+class PedidoService:
+    def __init__(self):
+        self.logger = setup_logger("pedido_service")
+        self.preco_service = PrecoService()
 
-    preco = calcular_preco(prod, qtd)
-    if preco < 0:
-        print("algo deu errado, preco negativo")
-        preco = 0
+    def processar(self, pedido: dict) -> float:
+        """
+        Processa um pedido e calcula o preço final com base no produto, quantidade e cupom.
+        """
 
-    if cupom == "MEGA10":
-        preco = preco - (preco * 0.1)
-    else:
-        if cupom == "NOVO5":
-            preco = preco - (preco * 0.05)
-        else:
-            if cupom == "LUB2" and prod == "lubrificante":
-                preco = preco - 2
-            else:
-                preco = preco
+        self.logger.info(f"Processando pedido: {pedido}")
 
-    if prod == "diesel":
-        preco = round(preco, 0)
-    else:
-        if prod == "gasolina":
+        # Validação básica
+        cliente = pedido.get("cliente", "desconhecido")
+        produto = pedido.get("produto")
+        qtd = pedido.get("qtd", 0)
+        cupom = pedido.get("cupom")
+
+        if not produto:
+            self.logger.error(f"Pedido inválido (sem produto): {pedido}")
+            return 0.0
+
+        if qtd <= 0:
+            self.logger.warning(f"Pedido de {cliente} com quantidade inválida: {qtd}")
+            return 0.0
+
+        # Cálculo de preço via PrecoService
+        preco = self.preco_service.calcular(produto, qtd, cupom)
+
+        # Pós-processamento de arredondamento (como na versão legacy)
+        if produto == "diesel":
+            preco = round(preco, 0)
+        elif produto == "gasolina":
             preco = round(preco, 2)
         else:
             preco = float(int(preco * 100) / 100.0)
 
-    print("pedido ok:", p["cliente"], prod, qtd, "=>", preco)
-    return preco
+        self.logger.info(
+            f"Pedido concluído: Cliente={cliente}, Produto={produto}, Qtd={qtd}, Valor Final=R$ {preco:.2f}"
+        )
+
+        return preco

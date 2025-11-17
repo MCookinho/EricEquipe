@@ -45,3 +45,4 @@ class FileUtils:
         path = Path(file_path)
         if path.exists():
             path.unlink()
+            

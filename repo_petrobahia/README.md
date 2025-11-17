@@ -120,3 +120,5 @@ Vamos então atualizar o clientes_service.py para usar o novo utilitário FileUt
 | ----------------------------------------- | -------------------- | ------------------------------------------------- |
 | Rodando do diretório raiz (✅ recomendado)| `python -m src.main` | `from src.clientes_service import ClienteService` |
 | Rodando dentro de `src/`                  | `python main.py`     | `from clientes_service import ClienteService`     |
+
+no dir /workspaces/EricEquipe/repo_petrobahia rode no cmd ```python -m src.main```

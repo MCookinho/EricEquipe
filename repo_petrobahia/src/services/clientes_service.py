@@ -1,25 +1,49 @@
-from utils.log_config import setup_logger
-from utils.file_utils import append_line
+import re
+from pathlib import Path
+from typing import Dict, Any
+from src.utils import file_utils
+from src.utils.log_config import setup_logger
+
+REG_EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+CLIENTES_PATH = Path("clientes.txt")
 
 
 class ClienteService:
-    """Gerencia cadastro e validação de clientes."""
+    """Serviço responsável por cadastrar e validar clientes PetroBahia."""
 
-    def __init__(self):
+    def __init__(self, storage_path: Path = CLIENTES_PATH):
+        self.storage_path = storage_path
         self.logger = setup_logger("clientes_service")
 
-    def cadastrar(self, cliente: dict):
-        """Valida e registra um cliente."""
+    def validar_cliente(self, cliente: Dict[str, Any]) -> bool:
+        """Valida campos obrigatórios e formato de e-mail."""
+        if "email" not in cliente or "nome" not in cliente:
+            self.logger.error("Campos obrigatórios ausentes: 'email' e/ou 'nome'.")
+            raise ValueError("Campos obrigatórios ausentes: 'email' e/ou 'nome'.")
 
-        nome = cliente.get("nome")
-        email = cliente.get("email")
-
-        self.logger.info("Cadastrando cliente: %s (%s)", nome, email)
-
-        if "@" not in email or email.count("@") != 1:
-            self.logger.error("E-mail inválido: %s", email)
+        if not REG_EMAIL.match(cliente["email"]):
+            self.logger.warning(f"E-mail inválido: {cliente['email']}")
             return False
 
-        append_line("clientes.txt", f"{nome} - {email}")
-        self.logger.info("Cliente cadastrado com sucesso: %s", nome)
         return True
+
+    def salvar_cliente(self, cliente: Dict[str, Any]) -> None:
+        """Salva cliente em arquivo."""
+        file_utils.FileUtils.append_line(self.storage_path, cliente)
+
+    def cadastrar(self, cliente: Dict[str, Any]) -> bool:
+        """Fluxo completo de cadastro de cliente."""
+        self.logger.info(f"Cadastrando cliente: {cliente.get('nome')} ({cliente.get('email')})")
+        try:
+            if not self.validar_cliente(cliente):
+                return False
+        except ValueError as e:
+            return False
+
+        self.salvar_cliente(cliente)
+        self.enviar_email_boas_vindas(cliente["email"])
+        return True
+
+    def enviar_email_boas_vindas(self, email: str) -> None:
+        """Simula o envio de e-mail de boas-vindas."""
+        self.logger.info(f"Enviando e-mail de boas-vindas para {email}")

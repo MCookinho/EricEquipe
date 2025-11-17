@@ -1,3 +1,5 @@
+# Conteúdo para: src/services/pedido_service.py
+
 from src.services.preco_service import PrecoService
 from src.utils.log_config import setup_logger
 
@@ -18,7 +20,7 @@ class PedidoService:
         cliente = pedido.get("cliente", "desconhecido")
         produto = pedido.get("produto")
         qtd = pedido.get("qtd", 0)
-        cupom = pedido.get("cupom")
+        # cupom = pedido.get("cupom") # Variável não é usada
 
         if not produto:
             self.logger.error(f"Pedido inválido (sem produto): {pedido}")
@@ -40,7 +42,9 @@ class PedidoService:
             preco = float(int(preco * 100) / 100.0)
 
         self.logger.info(
-            f"Pedido concluído: Cliente={cliente}, Produto={produto}, Qtd={qtd}, Valor Final=R$ {preco:.2f}"
+            f"Pedido concluído: Cliente={cliente}, Produto={produto}, "
+            f"Qtd={qtd}, Valor Final=R$ {preco:.2f}"
         )
 
         return preco
+    

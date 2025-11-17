@@ -58,3 +58,18 @@
 2025-11-17 14:09:29 [INFO] pedido_service: Pedido concluído: Cliente=João Silva, Produto=lubrificante, Qtd=3, Valor Final=R$ 75.00
 2025-11-17 14:09:29 [INFO] main: Pedido concluído: João Silva => R$ 75.00
 2025-11-17 14:09:29 [INFO] main: === Encerrando sistema PetroBahia ===
+2025-11-17 14:29:06 [INFO] main: === Iniciando sistema PetroBahia ===
+2025-11-17 14:29:06 [INFO] clientes_service: Cadastrando cliente: João Silva (joao.silva@petrobahia.com)
+2025-11-17 14:29:06 [INFO] clientes_service: Enviando e-mail de boas-vindas para joao.silva@petrobahia.com
+2025-11-17 14:29:06 [INFO] clientes_service: Cadastrando cliente: Maria Souza (maria.souza@petrobahia.com)
+2025-11-17 14:29:06 [INFO] clientes_service: Enviando e-mail de boas-vindas para maria.souza@petrobahia.com
+2025-11-17 14:29:06 [INFO] pedido_service: Processando pedido: {'cliente': 'João Silva', 'produto': 'diesel', 'qtd': 800, 'cupom': 'MEGA10'}
+2025-11-17 14:29:06 [INFO] pedido_service: Pedido concluído: Cliente=João Silva, Produto=diesel, Qtd=800, Valor Final=R$ 3032.00
+2025-11-17 14:29:06 [INFO] main: Pedido concluído: João Silva => R$ 3032.00
+2025-11-17 14:29:06 [INFO] pedido_service: Processando pedido: {'cliente': 'Maria Souza', 'produto': 'gasolina', 'qtd': 150, 'cupom': 'NOVO5'}
+2025-11-17 14:29:06 [INFO] pedido_service: Pedido concluído: Cliente=Maria Souza, Produto=gasolina, Qtd=150, Valor Final=R$ 778.50
+2025-11-17 14:29:06 [INFO] main: Pedido concluído: Maria Souza => R$ 778.50
+2025-11-17 14:29:06 [INFO] pedido_service: Processando pedido: {'cliente': 'João Silva', 'produto': 'lubrificante', 'qtd': 3, 'cupom': 'LUB2'}
+2025-11-17 14:29:06 [INFO] pedido_service: Pedido concluído: Cliente=João Silva, Produto=lubrificante, Qtd=3, Valor Final=R$ 75.00
+2025-11-17 14:29:06 [INFO] main: Pedido concluído: João Silva => R$ 75.00
+2025-11-17 14:29:06 [INFO] main: === Encerrando sistema PetroBahia ===

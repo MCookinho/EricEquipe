@@ -37,3 +37,4 @@ def setup_logger(name: str = "petrobahia", level: int = logging.INFO) -> logging
     logger.addHandler(file_handler)
 
     return logger
+

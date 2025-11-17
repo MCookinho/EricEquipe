@@ -16,7 +16,7 @@ def main():
     # Exemplo de clientes
     clientes = [
         {"nome": "João Silva", "email": "joao.silva@petrobahia.com"},
-        {"nome": "Maria Souza", "email": "maria.souza@@petrobahia.com"},  # inválido
+        {"nome": "Maria Souza", "email": "maria.souza@petrobahia.com"}, 
     ]
 
     # Cadastra clientes

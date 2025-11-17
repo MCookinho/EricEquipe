@@ -1,46 +1,44 @@
-from src.preco_service import PrecoService
-from src.log_config import setup_logger
+from services.preco_service import PrecoService
+from utils.log_config import setup_logger
 
 
 class PedidoService:
+    """Processa pedidos aplicando cálculo de preços."""
+
     def __init__(self):
         self.logger = setup_logger("pedido_service")
         self.preco_service = PrecoService()
 
     def processar(self, pedido: dict) -> float:
-        """
-        Processa um pedido e calcula o preço final com base no produto, quantidade e cupom.
-        """
+        """Processa o pedido e calcula o valor final."""
 
-        self.logger.info(f"Processando pedido: {pedido}")
+        self.logger.info("Processando pedido: %s", pedido)
 
-        # Validação básica
         cliente = pedido.get("cliente", "desconhecido")
         produto = pedido.get("produto")
         qtd = pedido.get("qtd", 0)
         cupom = pedido.get("cupom")
 
         if not produto:
-            self.logger.error(f"Pedido inválido (sem produto): {pedido}")
+            self.logger.error("Pedido inválido (sem produto): %s", pedido)
             return 0.0
 
         if qtd <= 0:
-            self.logger.warning(f"Pedido de {cliente} com quantidade inválida: {qtd}")
+            self.logger.warning("Pedido de %s com quantidade inválida: %s", cliente, qtd)
             return 0.0
 
-        # Cálculo de preço via PrecoService
         preco = self.preco_service.calcular(produto, qtd, cupom)
 
-        # Pós-processamento de arredondamento (como na versão legacy)
         if produto == "diesel":
             preco = round(preco, 0)
         elif produto == "gasolina":
             preco = round(preco, 2)
         else:
-            preco = float(int(preco * 100) / 100.0)
+            preco = float(int(preco * 100) / 100)
 
         self.logger.info(
-            f"Pedido concluído: Cliente={cliente}, Produto={produto}, Qtd={qtd}, Valor Final=R$ {preco:.2f}"
+            "Pedido concluído: Cliente=%s, Produto=%s, Qtd=%s, Valor Final=R$ %.2f",
+            cliente, produto, qtd, preco
         )
 
         return preco

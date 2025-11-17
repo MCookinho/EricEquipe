@@ -1,45 +1,25 @@
-import re
-from pathlib import Path
-from typing import Dict, Any
-from utils import file_utils
-
-REG_EMAIL = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
-CLIENTES_PATH = Path("clientes.txt")
+from utils.log_config import setup_logger
+from utils.file_utils import append_line
 
 
 class ClienteService:
-    """Serviço responsável por cadastrar e validar clientes PetroBahia."""
+    """Gerencia cadastro e validação de clientes."""
 
-    def __init__(self, storage_path: Path = CLIENTES_PATH):
-        self.storage_path = storage_path
+    def __init__(self):
+        self.logger = setup_logger("clientes_service")
 
-    def validar_cliente(self, cliente: Dict[str, Any]) -> bool:
-        """Valida campos obrigatórios e formato de e-mail."""
-        if "email" not in cliente or "nome" not in cliente:
-            raise ValueError("Campos obrigatórios ausentes: 'email' e/ou 'nome'.")
+    def cadastrar(self, cliente: dict):
+        """Valida e registra um cliente."""
 
-        if not REG_EMAIL.match(cliente["email"]):
-            print(f"[AVISO] E-mail inválido: {cliente['email']}")
+        nome = cliente.get("nome")
+        email = cliente.get("email")
+
+        self.logger.info("Cadastrando cliente: %s (%s)", nome, email)
+
+        if "@" not in email or email.count("@") != 1:
+            self.logger.error("E-mail inválido: %s", email)
             return False
 
+        append_line("clientes.txt", f"{nome} - {email}")
+        self.logger.info("Cliente cadastrado com sucesso: %s", nome)
         return True
-
-    def salvar_cliente(self, cliente: Dict[str, Any]) -> None:
-        """Salva cliente em arquivo."""
-        file_utils.append_line(self.storage_path, cliente)
-
-    def cadastrar(self, cliente: Dict[str, Any]) -> bool:
-        """Fluxo completo de cadastro de cliente."""
-        try:
-            self.validar_cliente(cliente)
-        except ValueError as e:
-            print(f"[ERRO] {e}")
-            return False
-
-        self.salvar_cliente(cliente)
-        self.enviar_email_boas_vindas(cliente["email"])
-        return True
-
-    def enviar_email_boas_vindas(self, email: str) -> None:
-        """Simula o envio de e-mail de boas-vindas."""
-        print(f"Enviando e-mail de boas-vindas para {email}")

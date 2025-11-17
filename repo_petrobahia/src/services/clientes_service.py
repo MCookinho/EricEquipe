@@ -1,3 +1,5 @@
+# Conteúdo para: src/services/clientes_service.py
+
 import re
 from pathlib import Path
 from typing import Dict, Any
@@ -37,7 +39,7 @@ class ClienteService:
         try:
             if not self.validar_cliente(cliente):
                 return False
-        except ValueError as e:
+        except ValueError:
             return False
 
         self.salvar_cliente(cliente)
@@ -47,3 +49,5 @@ class ClienteService:
     def enviar_email_boas_vindas(self, email: str) -> None:
         """Simula o envio de e-mail de boas-vindas."""
         self.logger.info(f"Enviando e-mail de boas-vindas para {email}")
+
+    

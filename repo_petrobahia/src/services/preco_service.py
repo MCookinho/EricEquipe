@@ -58,3 +58,5 @@ class PrecoService:
     def _calc_lubrificante(self, qtd: int) -> float:
         base = self.bases["lubrificante"]
         return base * qtd
+
+

@@ -27,7 +27,7 @@ class PedidoService:
             self.logger.warning("Pedido de %s com quantidade inválida: %s", cliente, qtd)
             return 0.0
 
-        preco = self.preco_service.calcular(produto, qtd, cupom)
+        preco = self.preco_service.calcular_preco(produto, qtd, cupom)
 
         if produto == "diesel":
             preco = round(preco, 0)

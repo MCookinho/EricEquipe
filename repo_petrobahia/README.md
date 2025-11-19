@@ -128,6 +128,9 @@ Vamos então atualizar o clientes_service.py para usar o novo utilitário FileUt
 | Rodando do diretório raiz (✅ recomendado)| `python -m src.main` | `from src.clientes_service import ClienteService` |
 | Rodando dentro de `src/`                  | `python main.py`     | `from clientes_service import ClienteService`     |
 
+### PYLINT e ISORT
+
+Para rodar os verficadores de codigo foi necessario criar os arquivos .isort.cfg e o arquivo .pylintrc com as configuracoes que verificadores irão carregar.
 
 ### PYTEST MUDANCAS FEITAS
 

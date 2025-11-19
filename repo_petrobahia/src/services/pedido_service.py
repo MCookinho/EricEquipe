@@ -1,5 +1,3 @@
-# Conteúdo para: src/services/pedido_service.py
-
 from src.services.preco_service import PrecoService
 from src.utils.log_config import setup_logger
 

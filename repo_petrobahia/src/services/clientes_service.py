@@ -1,8 +1,7 @@
-# Conteúdo para: src/services/clientes_service.py
-
 import re
 from pathlib import Path
-from typing import Dict, Any
+from typing import Any, Dict
+
 from src.utils import file_utils
 from src.utils.log_config import setup_logger
 

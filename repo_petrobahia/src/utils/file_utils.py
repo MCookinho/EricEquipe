@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import List, Any, Union
+from typing import Any, List, Union
 
 
 class FileUtils:

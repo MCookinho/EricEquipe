@@ -1,5 +1,3 @@
-# Conteúdo para: src/main.py
-
 from src.services.clientes_service import ClienteService
 from src.services.pedido_service import PedidoService
 from src.utils.log_config import setup_logger

@@ -9,6 +9,13 @@ O código está **mal estruturado** e **difícil de manter**. O objetivo é **re
 - Eliminar duplicações e efeitos colaterais
 - Melhorar nomes e modularidade
 
+## COMO EXECUTAR
+no dir ```/workspaces/EricEquipe/repo_petrobahia``` rode no cmd ```python -m src.main```
+
+## COMO EXECUTAR O TESTES PYTEST
+
+Para executar o pytest navegue ate o dir ```/workspaces/EricEquipe/repo_petrobahia``` rode no cmd ```pytest -v```
+
 ## Estrutura
 ```
 src/
@@ -55,15 +62,12 @@ seu-repositorio/
 
 🔄 Por quê:
 
-“legacy” sugere código velho, e queremos evoluir.
+“legacy” sugere codigo legado sem especificar o que esta fazendo
 
 “services” representa bem as regras de negócio.
 
 “data/” guarda os dados, deixando src/ limpo.
 
-            
-## COMO EXECUTAR
-no dir ```/workspaces/EricEquipe/repo_petrobahia``` rode no cmd ```python -m src.main```
 
 ## MUDANÇAS FEITAS
 
@@ -124,8 +128,9 @@ Vamos então atualizar o clientes_service.py para usar o novo utilitário FileUt
 | Rodando do diretório raiz (✅ recomendado)| `python -m src.main` | `from src.clientes_service import ClienteService` |
 | Rodando dentro de `src/`                  | `python main.py`     | `from clientes_service import ClienteService`     |
 
-## Pytest
 
-Para rodar os tests unitarios As mudanças realizadas para habilitar a execução correta do pytest no projeto foram essenciais para tornar a estrutura mais sólida, padronizada e compatível com boas práticas de desenvolvimento Python. A primeira etapa foi configurar o arquivo pytest.ini, definindo o caminho base para que o pytest reconhecesse o diretório src como um pacote importável, eliminando erros de importação que impediam a coleta de testes. Em seguida, foi necessário ajustar toda a lógica de importação interna do projeto, substituindo imports relativos ou inválidos por imports absolutos, garantindo consistência e previsibilidade em qualquer ambiente — local, contêiner, pipeline ou Codespaces.
+### PYTEST MUDANCAS FEITAS
+
+As mudanças realizadas para habilitar a execução correta do pytest no projeto foram essenciais para tornar a estrutura mais sólida, padronizada e compatível com boas práticas de desenvolvimento Python. A primeira etapa foi configurar o arquivo pytest.ini, definindo o caminho base para que o pytest reconhecesse o diretório src como um pacote importável, eliminando erros de importação que impediam a coleta de testes. Em seguida, foi necessário ajustar toda a lógica de importação interna do projeto, substituindo imports relativos ou inválidos por imports absolutos, garantindo consistência e previsibilidade em qualquer ambiente — local, contêiner, pipeline ou Codespaces.
 
 Outra mudança importante foi a refatoração do módulo file_utils.py, que originalmente utilizava uma classe estática (FileUtils). Os testes unitários, porém, esperavam funções soltas, e a refatoração tornou o módulo mais simples, direto e aderente ao padrão pythonista. Como consequência, os serviços que dependiam dessa utilidade precisaram ser atualizados para chamar as novas funções diretamente, substituindo referências à antiga classe. Além disso, os testes de serviço foram ajustados para usar tmp_path, isolando operações de leitura e escrita em arquivos temporários, evitando que o repositório fosse poluído durante a execução dos testes. Essas melhorias combinadas não apenas permitiram que todo o conjunto de testes rodasse com sucesso, como também deixaram o código mais limpo, mais seguro e mais fácil de manter.

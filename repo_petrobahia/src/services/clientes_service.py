@@ -30,7 +30,7 @@ class ClienteService:
 
     def salvar_cliente(self, cliente: Dict[str, Any]) -> None:
         """Salva cliente em arquivo."""
-        file_utils.FileUtils.append_line(self.storage_path, cliente)
+        file_utils.append_line(self.storage_path, cliente)
 
     def cadastrar(self, cliente: Dict[str, Any]) -> bool:
         """Fluxo completo de cadastro de cliente."""

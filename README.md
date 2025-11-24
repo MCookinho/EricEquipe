@@ -58,6 +58,8 @@ seu-repositorio/
 │
 └── tests/
     └── test_pedido_service.py   # depois faremos testes automatizados
+└── logs/
+    └── app.log   
 ```
 
 🔄 Por quê:
